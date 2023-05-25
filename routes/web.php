@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [ResultParseController::class, 'index']);
+Route::get('/', [ResultParseController::class, 'index'])->name('index');
 Route::post('parse', [ResultParseController::class, 'parse'])->name('parse');
+//Route::post('');

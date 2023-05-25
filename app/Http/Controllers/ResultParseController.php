@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ResultParser;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 
@@ -28,11 +29,41 @@ class ResultParseController extends Controller
         // fclose($stream);
         // dd($stream);
 
-        // $xml = XmlParser::load(public_path('xml/questions-English Course 1-Multiple Choice-20230517-1146.xml'));
-        $xml = XmlParser::load($parse_file);
-        dd($xml);
-        $user = $xml->parse([
-            'questiontext' => '',
+        $name_file = $request->file('file_xml')->getClientOriginalName();
+        // dd($request->file('file_xml')->getClientOriginalName());
+        // $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
+        // $request->image_book->move(public_path('images'), $imgName);
+        $location_file = $request->file('file_xml')->move(public_path('xml'), $name_file);
+        $save_file_parse = new ResultParser();
+        $save_file_parse->name_file = $name_file;
+        $save_file_parse->file_location = $location_file;
+        $save_file_parse->save();
+
+        $find_last_record = ResultParser::where('name_file', $name_file)->first();
+        $xml = XmlParser::load($find_last_record->file_location);
+        $res_pars = $xml->parse([
+            'questiontype' => ['uses' => 'question::type'],
+            'questiontext' => ['uses' => 'question.questiontext.text'],
+            'name' => ['uses' => 'question.name.text'],
+            'defaultgrade' => ['uses' => 'question.defaultgrade'],
+            'penalty' => ['uses' => 'question.penalty'],
+            'answer' => ['uses' => 'question.answer[text]',
+            ],
+            'answercorrect' => ['uses' => 'question.answer[::fraction]'],
+            'shownumcorrect' => ['uses' => 'question.shownumcorrect.text']
         ]);
+
+        // $parser = $xml->parse([
+        //     'products' => ['uses' => 'products.product[attributes.attribute_group.value(::name=@)]'],
+        // ]);
+
+        // $user = $xml->parse([
+        //     'id' => ['uses' => 'user.id'],
+        //     'email' => ['uses' => 'user.email'],
+        //     'followers' => ['uses' => 'user::followers'],
+        // ]);
+        dd($res_pars);
+        // return redirect()->back();
+
     }
 }

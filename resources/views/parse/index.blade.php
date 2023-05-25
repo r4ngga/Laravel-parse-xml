@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <form method="POST" action="{{route('parse')}}">
+    <form method="POST" action="{{route('parse')}}" enctype="multipart/form-data" >
         @csrf
         <label for="">masukkan file xml</label>
         <input type="file" name="file_xml" id="file_xml">

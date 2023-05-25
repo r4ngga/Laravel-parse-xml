@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 10  -->
+<!-- question: 2  -->
   <question type="multichoice">
     <name>
       <text>Multiple Choice</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Eric : Hey guys this is Tony, he is my friend&nbsp;</p>
-<p>Tony : ................</p>
-<p>Lewis : Oh Hi Tony, nice to meet you</p>]]></text>
+      <text><![CDATA[<p>Ani : ........ Mr Andri</p>
+<p>Mr Andri : Good Morning Ani !</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -16,7 +15,7 @@
     <defaultgrade>1</defaultgrade>
     <penalty>0.3333333</penalty>
     <hidden>0</hidden>
-    <idnumber>5</idnumber>
+    <idnumber>1</idnumber>
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
     <answernumbering>abc</answernumbering>
@@ -31,32 +30,32 @@
       <text><![CDATA[<p>Your answer is incorrect.</p>]]></text>
     </incorrectfeedback>
     <shownumcorrect/>
-    <answer fraction="0" format="html">
-      <text><![CDATA[<p>This is your friend, ric ?</p>]]></text>
-      <feedback format="html">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="html">
-      <text><![CDATA[<p>I'm gratefull Eric</p>]]></text>
-      <feedback format="html">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="html">
-      <text><![CDATA[<p>Thank's</p>]]></text>
-      <feedback format="html">
-        <text></text>
-      </feedback>
-    </answer>
-    <answer fraction="0" format="html">
-      <text><![CDATA[<p>Who are you ?</p>]]></text>
-      <feedback format="html">
-        <text></text>
-      </feedback>
-    </answer>
     <answer fraction="100" format="html">
-      <text><![CDATA[<p>Hello guys, I'm Tony happy to meet you</p>]]></text>
+      <text><![CDATA[<p>Good Morning</p>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Good Night</p>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Good Afternoon</p>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Midnight</p>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Middle Dawn</p>]]></text>
       <feedback format="html">
         <text></text>
       </feedback>
