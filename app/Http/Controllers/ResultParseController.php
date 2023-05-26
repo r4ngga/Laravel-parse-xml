@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\FileParser;
 use App\Models\ResultParser;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Parser\Xml\Facade as XmlParser;
@@ -34,12 +35,12 @@ class ResultParseController extends Controller
         // $imgName = $request->image_book->getClientOriginalName() . '-' . time() . '.' . $request->image_book->extension();
         // $request->image_book->move(public_path('images'), $imgName);
         $location_file = $request->file('file_xml')->move(public_path('xml'), $name_file);
-        $save_file_parse = new ResultParser();
+        $save_file_parse = new FileParser();
         $save_file_parse->name_file = $name_file;
         $save_file_parse->file_location = $location_file;
         $save_file_parse->save();
 
-        $find_last_record = ResultParser::where('name_file', $name_file)->first();
+        $find_last_record = FileParser::where('name_file', $name_file)->first();
         $xml = XmlParser::load($find_last_record->file_location);
         $res_pars = $xml->parse([
             'questiontype' => ['uses' => 'question::type'],
@@ -62,8 +63,53 @@ class ResultParseController extends Controller
         //     'email' => ['uses' => 'user.email'],
         //     'followers' => ['uses' => 'user::followers'],
         // ]);
-        dd($res_pars);
-        // return redirect()->back();
+        // dd($res_pars['answer'][0]['text']);
+        // dd($res_pars['answercorrect'][4]['::fraction']);
+        // dd($res_pars);
+
+        $result_parse = new ResultParser();
+
+        $result_parse->soal = $res_pars['questiontext'];
+        $result_parse->jenis = $res_pars['questiontype'];
+        $result_parse->a = $res_pars['answer'][0]['text'];
+        $result_parse->b = $res_pars['answer'][1]['text'];
+        $result_parse->c = $res_pars['answer'][2]['text'];
+        $result_parse->d = $res_pars['answer'][3]['text'];
+        $result_parse->e = $res_pars['answer'][4]['text'];
+        if($res_pars['answercorrect'][0]['::fraction'] != '0')
+        {
+             $result_parse->jawaban = 'a';
+        }
+         if($res_pars['answercorrect'][1]['::fraction'] != '0')
+        {
+             $result_parse->jawaban = 'b';
+        }
+         if($res_pars['answercorrect'][2]['::fraction'] != '0')
+        {
+             $result_parse->jawaban = 'c';
+        }
+         if($res_pars['answercorrect'][3]['::fraction'] != '0')
+        {
+             $result_parse->jawaban = 'd';
+        }
+         if($res_pars['answercorrect'][4]['::fraction'] != '0')
+        {
+             $result_parse->jawaban = 'e';
+        }
+        foreach($res_pars['answercorrect'] as $key => $score){
+            // dd($score[$key]['::fraction'] );
+            if($score['::fraction'] > 0){
+                $result_parse->score = $score['::fraction'];
+            }
+
+            //if($score['::fraction'] != 0){
+                //$result_parse->jawaban
+
+            //}
+        }
+        // $result_parse->jawaban = '';
+        $result_parse->save();
+        return redirect()->back();
 
     }
 }
